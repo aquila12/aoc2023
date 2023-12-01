@@ -3,8 +3,12 @@
 module Day1
   # Form a number from the first and last digit per line
   class Part1
+    def digits(line)
+      line.tr('^0-9', '').chars
+    end
+
     def calibration_value(line)
-      digits = line.tr('^0-9', '').chars
+      digits = digits(line)
       (digits.first.to_i * 10) + digits.last.to_i
     end
 

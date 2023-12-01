@@ -1,25 +1,21 @@
 # frozen_string_literal: true
 
+require_relative 'part1'
+
 module Day1
   # Form a number from the first and last digit per line
-  class Part2
+  class Part2 < Part1
     WORDS = %w[zero one two three four five six seven eight nine]
     DIGIT = /[0-9]|#{WORDS.join('|')}/
     VALUE = WORDS.each_with_index.to_h
 
-    def calibration_value(line)
-      digs = line.partition(DIGIT)[1], line.rpartition(DIGIT)[1]
-      first, last = digs.map { |d| d.length > 1 ? VALUE[d] : d.to_i }
-
-      (first * 10) + last
-    end
-
-    def sum(enumerator)
-      enumerator.sum(&method(:calibration_value))
-    end
-
-    def result(file)
-      sum file.each_line
+    def digits(line)
+      [
+        line.partition(DIGIT)[1],
+        line.rpartition(DIGIT)[1]
+      ].map do |digit|
+        digit.length > 1 ? VALUE[digit] : digit.to_i
+      end
     end
   end
 end
