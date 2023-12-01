@@ -6,3 +6,5 @@ Style/NumericLiterals:
 
 Style/MutableConstant:
   Enabled: false
+
+require: rubocop-rspec

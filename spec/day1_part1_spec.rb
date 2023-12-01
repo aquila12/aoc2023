@@ -24,8 +24,8 @@ RSpec.describe Day1::Part1 do
   end
 
   context 'when given an input file' do
-    let(:input_lines) { File.open('1/input').each_line }
     subject(:the_answer) { p1.sum(input_lines) }
+    with_input('1/input')
 
     it { is_expected.to be_a(Numeric) }
 
