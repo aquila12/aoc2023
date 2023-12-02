@@ -50,4 +50,14 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
       it { is_expected.to eq 8 }
     end
   end
+
+  context 'when given an input file' do
+    subject(:the_answer) { p1.sum(input_lines) }
+
+    with_input('2/input')
+
+    it { is_expected.to be_a(Numeric) }
+
+    it { is_expected.to eq(2169) }
+  end
 end
