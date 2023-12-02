@@ -45,5 +45,7 @@ RSpec.describe Day2::Part2 do
     with_input('2/input')
 
     it { is_expected.to be_a(Numeric) }
+
+    it { is_expected.to eq 60948 }
   end
 end

@@ -58,6 +58,6 @@ RSpec.describe Day2::Part1 do
 
     it { is_expected.to be_a(Numeric) }
 
-    it { is_expected.to eq(2169) }
+    it { is_expected.to eq 2169 }
   end
 end
