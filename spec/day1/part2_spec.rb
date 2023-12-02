@@ -30,7 +30,7 @@ RSpec.describe Day1::Part2 do
   context 'when given an input file' do
     subject(:the_answer) { p2.sum(input_lines) }
 
-    with_input('1/input')
+    with_input(:day1)
 
     it { is_expected.to be_a(Numeric) }
 

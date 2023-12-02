@@ -24,12 +24,12 @@ rule '' do |name|
 
   cls = Object.const_get "Day#{day}::Part#{part}"
 
-  fname = %w[input1 input2 input].detect { |n| File.exist? "#{day}/#{n}" }
+  suffix = ["p#{part}", ''].detect { |suf| File.exist? "input/day#{day}#{suf}" }
 
   print "Day #{day} part #{part}... "
   t0 = Time.now
 
-  File.open("#{day}/#{fname}") do |f|
+  File.open("input/day#{day}#{suffix}") do |f|
     print cls.new.result(f)
   end
 

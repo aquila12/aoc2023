@@ -6,7 +6,9 @@ $LOAD_PATH << File.join(__dir__, '../lib')
 
 module RSpecMixin
   def with_input(filename)
-    before { @f = File.open(filename) }
+    path = File.join(__dir__, '..', 'input', filename.to_s)
+
+    before { @f = File.open(path) }
     after { @f.close }
 
     let(:input_file) { @f }
