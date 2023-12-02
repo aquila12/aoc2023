@@ -38,4 +38,12 @@ RSpec.describe Day2::Part2 do
       expect(game(5).smallest_set.power).to eq 36
     end
   end
+
+  context 'when given an input file' do
+    subject(:the_answer) { p2.sum(input_lines) }
+
+    with_input('2/input')
+
+    it { is_expected.to be_a(Numeric) }
+  end
 end
