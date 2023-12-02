@@ -47,5 +47,17 @@ RSpec.describe Day2::Part2 do
     it { is_expected.to be_a(Numeric) }
 
     it { is_expected.to eq 60948 }
+
+    example 'every game has nonzero positive power' do
+      expect(p2.powers(input_lines)).to all(be_positive)
+    end
+
+    example 'every game includes exactly three colours' do
+      have_three_colours = satisfy do |g|
+        g.smallest_set.length == 3
+      end
+
+      expect(p2.games(input_lines)).to all have_three_colours
+    end
   end
 end
