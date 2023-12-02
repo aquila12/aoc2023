@@ -15,17 +15,27 @@ RSpec.describe Day2::Part2 do
     EXAMPLE
   end
 
-  describe 'Game.smallest_set' do
-    def smallest(example_number)
-      Day2::Game.new(example_data.lines[example_number - 1]).smallest_set
-    end
+  def game(example_number)
+    Day2::Game.new(example_data.lines[example_number - 1])
+  end
 
+  describe 'Game.smallest_set' do
     it 'matches the examples given', :aggregate_failures do
-      expect(smallest(1)).to match(red: 4, green: 2, blue: 6)
-      expect(smallest(2)).to match(red: 1, green: 3, blue: 4)
-      expect(smallest(3)).to match(red: 20, green: 13, blue: 6)
-      expect(smallest(4)).to match(red: 14, green: 3, blue: 15)
-      expect(smallest(5)).to match(red: 6, green: 3, blue: 2)
+      expect(game(1).smallest_set).to match(red: 4, green: 2, blue: 6)
+      expect(game(2).smallest_set).to match(red: 1, green: 3, blue: 4)
+      expect(game(3).smallest_set).to match(red: 20, green: 13, blue: 6)
+      expect(game(4).smallest_set).to match(red: 14, green: 3, blue: 15)
+      expect(game(5).smallest_set).to match(red: 6, green: 3, blue: 2)
+    end
+  end
+
+  describe 'Set.power' do
+    it 'matches the examples given', :aggregate_failures do
+      expect(game(1).smallest_set.power).to eq 48
+      expect(game(2).smallest_set.power).to eq 12
+      expect(game(3).smallest_set.power).to eq 1560
+      expect(game(4).smallest_set.power).to eq 630
+      expect(game(5).smallest_set.power).to eq 36
     end
   end
 end

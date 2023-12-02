@@ -9,6 +9,13 @@ module Day2
       blue: 14
     }
 
+    # Extension methods for sets
+    module SetMethods
+      def power
+        values.inject(:*)
+      end
+    end
+
     def initialize(line)
       game, @input = line.split(':')
       @id = game.split.last.to_i
@@ -36,7 +43,7 @@ module Day2
     def smallest_set
       cube_sets.inject do |s1, s2|
         s1.merge(s2) { |_, n1, n2| [n1, n2].max }
-      end
+      end.extend(SetMethods)
     end
   end
 end
