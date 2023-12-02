@@ -5,7 +5,7 @@ require 'day1/part1'
 RSpec.describe Day1::Part1 do
   subject(:p1) { described_class.new }
 
-  let(:example_data) { %w[1abc2 pqr3stu8vwx a1b2c3d4e5f treb7uchet] }
+  with_example_data :day1p1
 
   describe '.calibration_value' do
     it 'meets the given examples', :aggregate_failures do

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'fixtures'
+
 $LOAD_PATH << File.join(__dir__, '../lib')
 
 module RSpecMixin
@@ -9,6 +11,10 @@ module RSpecMixin
 
     let(:input_file) { @f }
     let(:input_lines) { @f.each_line }
+  end
+
+  def with_example_data(tag)
+    let(:example_data) { FIXTURES[tag] }
   end
 end
 
