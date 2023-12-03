@@ -30,5 +30,6 @@ RSpec.describe Day3::Part1 do
     with_input(:day3)
 
     it { is_expected.to be_a(Numeric) }
+    it { is_expected.to be > 534462 }
   end
 end
