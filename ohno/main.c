@@ -20,19 +20,20 @@ void run_part(struct aoc_part *part) {
 
     int answer = 0;
 
-    clock_gettime(CLOCK_MONOTONIC, &t0);
+    if(clock_gettime(CLOCK_MONOTONIC, &t0))
+      perror("WARNING: Failed to get system time");
     for(int i = 0; i < part->runs; ++i) answer = part->impl();
     clock_gettime(CLOCK_MONOTONIC, &t1);
 
-    printf("%d", answer);
+    printf("%9d", answer);
     if(answer == part->answer) printf(" (correct)");
     else printf(" (should be %d)", part->answer);
 
     __uint64_t delta = t1.tv_sec - t0.tv_sec;
     delta *= 1000000000;
     delta += (t1.tv_nsec - t0.tv_nsec);
-    delta /= part->runs;
-    printf(" in %ld ns", delta);
+    float us = (float)delta / 1000.0 /part->runs;
+    printf(" in %10.3f us (avg of %d)", us, part->runs);
   } else {
     printf(" - no implementation\n");
   }
@@ -40,7 +41,7 @@ void run_part(struct aoc_part *part) {
 
 static void run_day(int d) {
   for(int p = 0; p < 2; ++p) {
-    printf("Run day %d part %d", d + 1, p + 1);
+    printf("Run day %2d part %d", d + 1, p + 1);
     run_part(&days[d]->parts[p]);
     printf("\n");
   }
