@@ -86,7 +86,7 @@ static int parser(
   if(buf == MAP_FAILED) { sum = -3; goto _close; }
 
   int i = 0;
-  int width, numeral = 0, col, col0;
+  int width, numeral = 0, col, col0 = 0;
 
   // Calibrate input - assume constant width (well-behaved input)
   for(width = 0; width < fs.st_size && buf[width] != '\n'; ++width);
