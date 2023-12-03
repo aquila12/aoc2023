@@ -81,6 +81,6 @@ static int part2() {
 }
 
 struct aoc_day day1 = {
-  .part1 = { .impl = part1, .answer = 54951, .runs = 1000 },
-  .part2 = { .impl = part2, .answer = 55218, .runs = 1000 }
+  .part1 = { .impl = part1, .answer = 54951 },
+  .part2 = { .impl = part2, .answer = 55218 }
 };

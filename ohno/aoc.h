@@ -8,7 +8,6 @@ extern int null_implementation();
 struct aoc_part {
   int (*impl)();
   int answer;
-  int runs;
 };
 
 struct aoc_day {

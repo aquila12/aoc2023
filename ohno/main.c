@@ -1,6 +1,7 @@
 /* Entry point */
 
 #include "stdio.h"
+#include "stdlib.h"
 #include "aoc.h"
 #include "time.h"
 
@@ -12,30 +13,50 @@ struct aoc_day* days[] = {
   &day1, &day2, &day3
 };
 
+float tv_delta(struct timespec *start, struct timespec *end) {
+  float sec = end->tv_sec - start->tv_sec;
+  float ns = end->tv_nsec - start->tv_nsec;
+  return (sec * 1000000.0) + (ns / 1000.0);
+}
+
+int float_by_value_asc(const void *pa, const void *pb) {
+  const float *a = pa, *b = pb;
+  return (*a < *b) ? -1 : (*a > *b) ? 1 : 0;
+}
+
 void run_part(struct aoc_part *part) {
-  struct timespec t0, t1;
+  const int n_runs = 101;
+  struct timespec t[n_runs + 1];
 
   if(part->impl) {
     printf("...");
 
     int answer = 0;
 
-    if(clock_gettime(CLOCK_MONOTONIC, &t0))
+    if(clock_gettime(CLOCK_MONOTONIC, &t[0]))
       perror("WARNING: Failed to get system time");
-    for(int i = 0; i < part->runs; ++i) answer = part->impl();
-    clock_gettime(CLOCK_MONOTONIC, &t1);
+
+    for(int n = 0; n < n_runs; ++n) {
+      answer = part->impl();
+      clock_gettime(CLOCK_MONOTONIC, &t[n+1]);
+    }
+
+    float times[n_runs];
+    for(int n = 0; n < n_runs; ++n) times[n] = tv_delta(&t[n], &t[n + 1]);
+
+    qsort(times, n_runs, sizeof(float), float_by_value_asc);
 
     printf("%9d", answer);
     if(answer == part->answer) printf(" (correct)");
     else printf(" (should be %d)", part->answer);
 
-    __uint64_t delta = t1.tv_sec - t0.tv_sec;
-    delta *= 1000000000;
-    delta += (t1.tv_nsec - t0.tv_nsec);
-    float us = (float)delta / 1000.0 /part->runs;
-    printf(" in %10.3f us (avg of %d)", us, part->runs);
+    printf(" in %5.1f us (avg of %d) ", tv_delta(&t[0], &t[100]) / n_runs, n_runs);
+    printf(
+      "[min %5.1f, 10p %5.1f, med %5.1f, 90p %5.1f, max %5.1f]",
+      times[0], times[10], times[50], times[90], times[100]
+    );
   } else {
-    printf(" - no implementation\n");
+    printf(" - no implementation");
   }
 }
 
