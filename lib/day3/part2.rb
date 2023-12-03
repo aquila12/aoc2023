@@ -3,10 +3,10 @@
 require_relative 'schematic'
 
 module Day3
-  # Find numbers with a symbol adjacent
-  class Part1
+  # Find sum of products for "gears"
+  class Part2
     def sum(...)
-      Schematic.new(...).part_numbers.sum
+      Schematic.new(...).gears.map { |g| g[:ratio] }.sum
     end
 
     def result(file)
