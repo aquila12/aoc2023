@@ -153,7 +153,7 @@ static int found_adjacent_1(struct thing *num, struct thing *sym) {
   return num->num.value;
 }
 
-static int after_row_1(struct row*) { return 0; }
+static int after_row_1(struct row *_) { return 0; }
 
 static int part1() {
   return parser(found_adjacent_1, after_row_1);
