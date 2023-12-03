@@ -18,5 +18,11 @@ RSpec.describe Day3::Part2 do
 
       it { is_expected.to eq 467835 }
     end
+
+    context 'with the input file' do
+      let(:input) { input_lines }
+
+      it { is_expected.to eq 84883664 }
+    end
   end
 end
