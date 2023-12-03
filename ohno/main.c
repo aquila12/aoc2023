@@ -6,11 +6,10 @@
 
 int null_implementation() { return 0; };
 
-extern struct aoc_day day1;
-
+extern struct aoc_day day1, day2;
 
 struct aoc_day* days[] = {
-  &day1
+  &day1, &day2
 };
 
 void run_part(struct aoc_part *part) {
@@ -47,7 +46,7 @@ int main() {
 
   for(int d = 0; d < n_days; ++d) {
     for(int p = 0; p < 2; ++p) {
-      printf("Run day %d part %d", d, p);
+      printf("Run day %d part %d", d + 1, p + 1);
       run_part(&days[d]->parts[p]);
       printf("\n");
     }
