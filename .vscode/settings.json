@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "stat.h": "c",
-    "aoc.h": "c"
+    "aoc.h": "c",
+    "stdio.h": "c"
   }
 }

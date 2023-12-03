@@ -6,10 +6,10 @@
 
 int null_implementation() { return 0; };
 
-extern struct aoc_day day1, day2;
+extern struct aoc_day day1, day2, day3;
 
 struct aoc_day* days[] = {
-  &day1, &day2
+  &day1, &day2, &day3
 };
 
 void run_part(struct aoc_part *part) {
