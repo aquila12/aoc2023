@@ -26,12 +26,13 @@ module Day3
     end
 
     def input_with_border(enumerator)
-      borderline = '.' * enumerator.peek.length
-      (
-        [borderline].each.lazy +
-        enumerator.lazy +
-        [borderline].each.lazy
-      ).map { |s| ".#{s.chomp}." }
+      full_schematic = enumerator.map(&:chomp)
+      borderline = '.' * full_schematic.first.length
+
+      full_schematic.unshift borderline
+      full_schematic.push borderline
+
+      full_schematic.map { |l| ".#{l}." }
     end
 
     def sum(...)
