@@ -38,17 +38,33 @@ void run_part(struct aoc_part *part) {
   }
 }
 
-int main() {
+static void run_day(int d) {
+  for(int p = 0; p < 2; ++p) {
+    printf("Run day %d part %d", d + 1, p + 1);
+    run_part(&days[d]->parts[p]);
+    printf("\n");
+  }
+}
+
+int main(int argc, char* argv[]) {
   size_t n_days = sizeof(days) / sizeof(days[0]);
 
   printf("AoC 2023\n");
   printf("%ld days\n\n", n_days);
 
-  for(int d = 0; d < n_days; ++d) {
-    for(int p = 0; p < 2; ++p) {
-      printf("Run day %d part %d", d + 1, p + 1);
-      run_part(&days[d]->parts[p]);
-      printf("\n");
+  if(argc > 1) {
+    int day;
+    if(!sscanf(argv[1], "%d", &day)) {
+      printf("Bad day number: %s\n", argv[1]);
+      return 1;
+    } else if(day < 1 || day > n_days) {
+      printf("Day number out of range: %d\n", day);
+      return 1;
     }
-  }
+
+    run_day(day-1);
+  } else
+    for(int d = 0; d < n_days; ++d) run_day(d);
+
+
 }
