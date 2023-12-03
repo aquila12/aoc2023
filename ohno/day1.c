@@ -15,7 +15,7 @@ static int sum_calibration_values(int (*find_digits)(char*,int,int)) {
 
   char *line = NULL;
   size_t buflen = 0;
-  ssize_t linelen;
+  size_t linelen; // Strictly ssize_t, vscode warns though
 
   while ((linelen = getline(&line, &buflen, input)) != -1) {
     int first = find_digits(line, 0, linelen);
@@ -81,6 +81,6 @@ static int part2() {
 }
 
 struct aoc_day day1 = {
-  .part1 = { .impl = part1, .answer = 54951 },
-  .part2 = { .impl = part2, .answer = 55218 }
+  .part1 = { .impl = part1, .answer = 54951, .runs = 1000 },
+  .part2 = { .impl = part2, .answer = 55218, .runs = 1000 }
 };

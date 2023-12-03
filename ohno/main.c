@@ -2,6 +2,7 @@
 
 #include "stdio.h"
 #include "aoc.h"
+#include "time.h"
 
 int null_implementation() { return 0; };
 
@@ -13,14 +14,26 @@ struct aoc_day* days[] = {
 };
 
 void run_part(struct aoc_part *part) {
+  struct timespec t0, t1;
+
   if(part->impl) {
     printf("...");
 
-    int answer = part->impl();
+    int answer = 0;
+
+    clock_gettime(CLOCK_MONOTONIC, &t0);
+    for(int i = 0; i < part->runs; ++i) answer = part->impl();
+    clock_gettime(CLOCK_MONOTONIC, &t1);
 
     printf("%d", answer);
     if(answer == part->answer) printf(" (correct)");
     else printf(" (should be %d)", part->answer);
+
+    __uint64_t delta = t1.tv_sec - t0.tv_sec;
+    delta *= 1000000000;
+    delta += (t1.tv_nsec - t0.tv_nsec);
+    delta /= part->runs;
+    printf(" in %ld ns", delta);
   } else {
     printf(" - no implementation\n");
   }
