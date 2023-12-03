@@ -1,7 +1,7 @@
 TARGET = aoc2023
 LIBS = -lm
 CC = gcc
-CFLAGS = -Os -g -Wall
+CFLAGS = -O3 -g -Wall
 
 .PHONY: default all clean
 
@@ -16,9 +16,12 @@ HEADERS = $(wildcard *.h)
 
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
-$(TARGET): $(OBJECTS) Makefile
+$(TARGET).dbg: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
+
+$(TARGET): $(TARGET).dbg
+	strip $< -o $@
 
 clean:
 	-rm -f *.o
-	-rm -f $(TARGET)
+	-rm -f $(TARGET) $(TARGET).dbg
