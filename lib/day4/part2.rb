@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'card'
+require_relative 'part1'
 
 module Day4
   # Part 2 solution - total number of cards
