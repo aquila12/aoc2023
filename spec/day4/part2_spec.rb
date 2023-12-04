@@ -19,6 +19,7 @@ RSpec.describe Day4::Part2 do
       subject(:sum) { p2.sum(input_lines) }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 5489600 }
     end
   end
 end
