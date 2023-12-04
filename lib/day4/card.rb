@@ -15,8 +15,12 @@ module Day4
       @matches ||= @winning & @numbers
     end
 
+    def wins
+      matches.length
+    end
+
     def points
-      1 << (matches.length - 1)
+      1 << (wins - 1)
     end
   end
 end

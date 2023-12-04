@@ -5,8 +5,12 @@ require_relative 'card'
 module Day4
   # Part 1 solution
   class Part1
+    def cards(enum)
+      enum.map { |l| Card.new(l) }
+    end
+
     def sum(enum)
-      enum.sum { |l| Card.new(l).points }
+      cards(enum).sum(&:points)
     end
 
     def result(file)

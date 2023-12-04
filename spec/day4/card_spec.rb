@@ -23,13 +23,13 @@ RSpec.describe Day4::Card do
     it 'scores correctly' do
       expect(card.points).to eq 8
     end
+
+    it 'has the correct number of wins' do
+      expect(card.wins).to eq 4
+    end
   end
 
   context 'with the other example cards' do
-    # def card(n)
-    #   described_class.new(example_data[n - 1])
-    # end
-
     shared_examples 'card has the correct results' do |number:, matches: [], points: 0|
       describe "card #{number}" do
         subject(:card) { described_class.new(example_data[number - 1]) }
@@ -40,6 +40,10 @@ RSpec.describe Day4::Card do
 
         example 'scores correctly' do
           expect(card.points).to eq points
+        end
+
+        example 'has the correct number of wins' do
+          expect(card.wins).to eq matches.length
         end
       end
     end
