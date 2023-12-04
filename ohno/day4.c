@@ -19,9 +19,7 @@ inline static int calibrate(char *buf, int limit, char delim) {
   return i;
 }
 
-static int parser(
-  int(*process_card)(int)
-) {
+static int parser(int(*process_card)(int, int, void *), void *buffer) {
   int sum = 0;
 
   int fd = open("../input/day4", O_RDONLY);
@@ -34,6 +32,7 @@ static int parser(
   if(buf == MAP_FAILED) { sum = -3; goto _close; }
 
   int i = 0;
+  int line_number = 0;
 
   /* Calibrate; assume all lines formatted the same */
   // int pos_space = calibrate(buf, fs.st_size, ' '); // Card number not actually needed
@@ -57,9 +56,10 @@ static int parser(
         ++matches;
     }
 
-    sum += process_card(matches);
+    sum += process_card(matches, line_number, buffer);
 
     // Next line
+    ++line_number;
     i = start + pos_endl + 1;
   }
 
@@ -72,16 +72,27 @@ static int parser(
   return sum;
 }
 
-static int points_for_card(int matches) {
+static int points_for_card(int matches, int _i, void *_b) {
   return matches ? 1 << (matches - 1): 0;
 }
 
 static int part1() {
-  return parser(points_for_card);
+  return parser(points_for_card, 0);
+}
+
+static int copies_of_card(int matches, int index, void *buffer) {
+  int *copies = buffer;
+  int card_count = 1 + copies[index];
+
+  for(int i=index + 1; i <= index + matches; ++i)
+    copies[i] += card_count;
+
+  return card_count;
 }
 
 static int part2() {
-  return 0;
+  int copies[1000] = { };
+  return parser(copies_of_card, copies);
 }
 
 struct aoc_day day4 = {
