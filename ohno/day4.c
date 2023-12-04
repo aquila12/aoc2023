@@ -8,6 +8,7 @@
 #include "sys/mman.h"
 
 #include "stdio.h"
+#include "stdint.h"
 
 static const size_t mmap_len = 65536;
 
@@ -42,25 +43,18 @@ static int parser(
 
   while(i < fs.st_size) {
     int start = i;
-    char winning[10] = { .0 };
-    unsigned char w = 0;
+    uint16_t winning[10] = { .0 };
 
     // Read winning numbers
     for(i = start + pos_colon + 2; i < start + pos_pipe; i += 3) {
-      winning[w] = 10 * (buf[i] & 0xf) + (buf[i + 1] & 0xf);
-      ++w;
+      winning[buf[i] & 0xf] |= (1 << (buf[i + 1] & 0xf));
     }
 
     // Count matches
     int matches = 0;
     for(i = start + pos_pipe + 2; i < start + pos_endl; i += 3) {
-      char number = 10 * (buf[i] & 0xf) + (buf[i + 1] & 0xf);
-      for(w = 0; w < 10; ++w) {
-        if(winning[w] == number) {
-          ++matches;
-          break;
-        }
-      }
+      if(winning[buf[i] & 0xf] & (1 << (buf[i + 1] & 0xf)))
+        ++matches;
     }
 
     sum += process_card(matches);
