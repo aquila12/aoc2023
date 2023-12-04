@@ -57,13 +57,11 @@ static int parser(
       char number = 10 * (buf[i] & 0xf) + (buf[i + 1] & 0xf);
       for(w = 0; w < 10; ++w) {
         if(winning[w] == number) {
-          printf(" %d", (int)number);
           ++matches;
           break;
         }
       }
     }
-    printf("\n");
 
     sum += process_card(matches);
 
