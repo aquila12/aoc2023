@@ -11,7 +11,15 @@
 
 static const size_t mmap_len = 65536;
 
+inline static int calibrate(char *buf, int limit, char delim) {
+  int i;
+  for(i = 0; i < limit && buf[i] != delim; ++i);
+
+  return i;
+}
+
 static int parser(
+  int(*process_card)(int)
 ) {
   int sum = 0;
 
@@ -24,7 +32,44 @@ static int parser(
   char *buf = mmap(NULL, mmap_len, PROT_READ, MAP_SHARED, fd, 0);
   if(buf == MAP_FAILED) { sum = -3; goto _close; }
 
+  int i = 0;
 
+  /* Calibrate; assume all lines formatted the same */
+  // int pos_space = calibrate(buf, fs.st_size, ' '); // Card number not actually needed
+  int pos_colon = calibrate(buf, fs.st_size, ':');
+  int pos_pipe  = calibrate(buf, fs.st_size, '|');
+  int pos_endl  = calibrate(buf, fs.st_size, '\n');
+
+  while(i < fs.st_size) {
+    int start = i;
+    char winning[10] = { .0 };
+    unsigned char w = 0;
+
+    // Read winning numbers
+    for(i = start + pos_colon + 2; i < start + pos_pipe; i += 3) {
+      winning[w] = 10 * (buf[i] & 0xf) + (buf[i + 1] & 0xf);
+      ++w;
+    }
+
+    // Count matches
+    int matches = 0;
+    for(i = start + pos_pipe + 2; i < start + pos_endl; i += 3) {
+      char number = 10 * (buf[i] & 0xf) + (buf[i + 1] & 0xf);
+      for(w = 0; w < 10; ++w) {
+        if(winning[w] == number) {
+          printf(" %d", (int)number);
+          ++matches;
+          break;
+        }
+      }
+    }
+    printf("\n");
+
+    sum += process_card(matches);
+
+    // Next line
+    i = start + pos_endl + 1;
+  }
 
   // _munmap:
   munmap(buf, mmap_len);
@@ -35,8 +80,12 @@ static int parser(
   return sum;
 }
 
+static int points_for_card(int matches) {
+  return matches ? 1 << (matches - 1): 0;
+}
+
 static int part1() {
-  return parser();
+  return parser(points_for_card);
 }
 
 static int part2() {
@@ -44,6 +93,6 @@ static int part2() {
 }
 
 struct aoc_day day4 = {
-  .part1 = { .impl = part1, .answer = UNKNOWN },
-  .part2 = { .impl = part2, .answer = UNKNOWN }
+  .part1 = { .impl = part1, .answer = 20855 },
+  .part2 = { .impl = part2, .answer = 5489600 }
 };
