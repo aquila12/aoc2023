@@ -7,10 +7,10 @@
 
 int null_implementation() { return 0; };
 
-extern struct aoc_day day1, day2, day3;
+extern struct aoc_day day1, day2, day3, day4;
 
 struct aoc_day* days[] = {
-  &day1, &day2, &day3
+  &day1, &day2, &day3, &day4
 };
 
 float tv_delta(struct timespec *start, struct timespec *end) {
@@ -88,5 +88,5 @@ int main(int argc, char* argv[]) {
   } else
     for(int d = 0; d < n_days; ++d) run_day(d);
 
-
+  return 0;
 }
