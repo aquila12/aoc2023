@@ -3,45 +3,40 @@
 require 'day5/part1'
 
 RSpec.describe Day5::Part1 do
-  subject(:p1) { described_class.new }
+  context 'with the example data' do
+    subject(:p1) { described_class.new(example_data.each) }
 
-  with_example_data :day5
+    with_example_data :day5
 
-  describe '.seeds' do
-    context 'with the example data' do
-      subject(:seeds) { p1.seeds(example_data.first) }
+    describe '.seeds' do
+      context 'with the example data' do
+        subject(:seeds) { p1.seeds }
 
-      it { is_expected.to contain_exactly(79, 14, 55, 13) }
-    end
-  end
-
-  describe '.maps' do
-    context 'with the example maps' do
-      subject(:maps) { p1.maps(example_data.each) }
-
-      it 'has seven maps' do
-        expect(maps.length).to eq 7
-      end
-
-      it 'has the correct input types' do
-        expected_inputs = %w[seed soil fertilizer water light temperature humidity]
-        expect(maps.keys).to match_array(expected_inputs)
-      end
-
-      it 'has the correct output types' do
-        expected_outputs = %w[soil fertilizer water light temperature humidity location]
-        expect(maps.values.map(&:output)).to match_array(expected_outputs)
+        it { is_expected.to contain_exactly(79, 14, 55, 13) }
       end
     end
-  end
 
-  describe '.map' do
-    context 'with the example data' do
-      def map(seed_number, target_type)
-        maps = p1.maps(example_data.each)
-        p1.map(seed_number, :seed, target_type, maps)
+    describe '.maps' do
+      context 'with the example maps' do
+        subject(:maps) { p1.maps }
+
+        it 'has seven maps' do
+          expect(maps.length).to eq 7
+        end
+
+        it 'has the correct input types' do
+          expected_inputs = %w[seed soil fertilizer water light temperature humidity]
+          expect(maps.keys).to match_array(expected_inputs)
+        end
+
+        it 'has the correct output types' do
+          expected_outputs = %w[soil fertilizer water light temperature humidity location]
+          expect(maps.values.map(&:output)).to match_array(expected_outputs)
+        end
       end
+    end
 
+    describe '.map' do
       [
         { seed: 79, soil: 81, fertilizer: 81, water: 81, light: 74, temperature: 78, humidity: 78, location: 82 },
         { seed: 14, soil: 14, fertilizer: 53, water: 49, light: 42, temperature: 42, humidity: 43, location: 43 },
@@ -54,16 +49,14 @@ RSpec.describe Day5::Part1 do
           next if target_type == :seed
 
           it "produces the expected #{target_type} value for seed #{seed_number}" do
-            expect(map(seed_number, target_type)).to eq(target_value)
+            expect(p1.map(seed_number, :seed, target_type)).to eq(target_value)
           end
         end
       end
     end
-  end
 
-  describe '.lowest' do
-    context 'with the example data' do
-      subject(:lowest) { p1.lowest(example_data.each) }
+    describe '.lowest' do
+      subject(:lowest) { p1.lowest }
 
       it { is_expected.to eq 35 }
     end

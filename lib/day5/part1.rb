@@ -5,25 +5,29 @@ require_relative 'mapper'
 module Day5
   # Follow seed numbers through several range mappings
   class Part1
-    def seeds(line)
-      line.scan(/\d+/).map(&:to_i)
+    def initialize(lines)
+      @lines = lines
+      @seeds = @lines.next.scan(/\d+/).map(&:to_i)
     end
 
-    def maps(lines)
-      maps = {}
+    attr_reader :seeds
+
+    def maps
+      return @maps if @maps
+      @maps = {}
 
       loop do
-        line = lines.next.chomp
+        line = @lines.next.chomp
         next unless line =~ /\bmap:$/
 
         from, to = line.split.first.split('-to-')
-        maps[from] = Mapper.new(to, lines)
+        @maps[from] = Mapper.new(to, @lines)
       end
 
-      maps
+      @maps
     end
 
-    def map(value, type, target, maps)
+    def map(value, type, target)
       type = type.to_s
       target = target.to_s
 
@@ -36,11 +40,12 @@ module Day5
       value
     end
 
-    def lowest(lines)
-      seeds = seeds(lines.next)
-      maps = maps(lines)
+    def lowest
+      seeds.map { |n| map(n, :seed, :location) }.min
+    end
 
-      seeds.map { |n| map(n, :seed, :location, maps) }.min
+    def self.result(file)
+      new(file.each_line).lowest
     end
   end
 end

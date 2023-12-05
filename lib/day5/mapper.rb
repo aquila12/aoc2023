@@ -18,5 +18,9 @@ module Day5
     end
 
     attr_reader :output
+
+    def to_s
+      "#{super} => #{output}"
+    end
   end
 end
