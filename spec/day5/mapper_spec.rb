@@ -3,7 +3,7 @@
 require 'day5/mapper'
 
 RSpec.describe Day5::Mapper do
-  subject(:mapper) { described_class.new(input) }
+  subject(:mapper) { described_class.new(:test_type, input) }
 
   with_example_data :day5
 
@@ -19,9 +19,17 @@ RSpec.describe Day5::Mapper do
     maps
   end
 
+  describe '.output' do
+    subject(:output) { mapper.output }
+
+    let(:input) { [].each }
+
+    it { is_expected.to eq :test_type }
+  end
+
   describe '.[]' do
     context 'with the example seed to soil map' do
-      let(:input) { example_map['seed-to-soil'] }
+      let(:input) { example_map['seed-to-soil'].each }
 
       [
         [0, 0], [1, 1], [48, 48], [49, 49], [50, 52], [51, 53],
