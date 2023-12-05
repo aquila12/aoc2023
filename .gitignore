@@ -1,3 +1,4 @@
 *.o
 ohno/aoc2023
 ohno/aoc2023.dbg
+.rake_tasks~

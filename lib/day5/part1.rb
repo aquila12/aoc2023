@@ -7,7 +7,11 @@ module Day5
   class Part1
     def initialize(lines)
       @lines = lines
-      @seeds = @lines.next.scan(/\d+/).map(&:to_i)
+      @seeds = init_seeds(@lines.next)
+    end
+
+    def init_seeds(line)
+      line.scan(/\d+/).map(&:to_i)
     end
 
     attr_reader :seeds
