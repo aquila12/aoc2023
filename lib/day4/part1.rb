@@ -13,8 +13,8 @@ module Day4
       cards(enum).sum(&:points)
     end
 
-    def result(file)
-      sum file.each_line
+    def self.result(file)
+      new.sum file.each_line
     end
   end
 end

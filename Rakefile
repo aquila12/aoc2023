@@ -67,7 +67,7 @@ rule '' do |name|
   t0 = Time.now
 
   File.open("input/day#{day}#{suffix}") do |f|
-    print cls.new.result(f)
+    print cls.result(f)
   end
 
   t1 = Time.now

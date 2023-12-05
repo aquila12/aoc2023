@@ -9,8 +9,8 @@ module Day3
       Schematic.new(...).part_numbers.sum
     end
 
-    def result(file)
-      sum file.each_line
+    def self.result(file)
+      new.sum file.each_line
     end
   end
 end

@@ -16,8 +16,8 @@ module Day1
       enumerator.sum(&method(:calibration_value))
     end
 
-    def result(file)
-      sum file.each_line
+    def self.result(file)
+      new.sum file.each_line
     end
   end
 end
