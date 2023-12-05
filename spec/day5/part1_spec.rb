@@ -9,30 +9,26 @@ RSpec.describe Day5::Part1 do
     with_example_data :day5
 
     describe '.seeds' do
-      context 'with the example data' do
-        subject(:seeds) { p1.seeds }
+      subject(:seeds) { p1.seeds }
 
-        it { is_expected.to contain_exactly(79, 14, 55, 13) }
-      end
+      it { is_expected.to contain_exactly(79, 14, 55, 13) }
     end
 
     describe '.maps' do
-      context 'with the example maps' do
-        subject(:maps) { p1.maps }
+      subject(:maps) { p1.maps }
 
-        it 'has seven maps' do
-          expect(maps.length).to eq 7
-        end
+      it 'has seven maps' do
+        expect(maps.length).to eq 7
+      end
 
-        it 'has the correct input types' do
-          expected_inputs = %w[seed soil fertilizer water light temperature humidity]
-          expect(maps.keys).to match_array(expected_inputs)
-        end
+      it 'has the correct input types' do
+        expected_inputs = %w[seed soil fertilizer water light temperature humidity]
+        expect(maps.keys).to match_array(expected_inputs)
+      end
 
-        it 'has the correct output types' do
-          expected_outputs = %w[soil fertilizer water light temperature humidity location]
-          expect(maps.values.map(&:output)).to match_array(expected_outputs)
-        end
+      it 'has the correct output types' do
+        expected_outputs = %w[soil fertilizer water light temperature humidity location]
+        expect(maps.values.map(&:output)).to match_array(expected_outputs)
       end
     end
 
@@ -59,6 +55,21 @@ RSpec.describe Day5::Part1 do
       subject(:lowest) { p1.lowest }
 
       it { is_expected.to eq 35 }
+    end
+  end
+
+  context 'with the input file' do
+    subject(:p1) { described_class.new(input_file.each_line) }
+
+    with_input :day5
+
+    describe '.lowest' do
+      subject(:lowest) { p1.lowest }
+
+      it 'produces numeric output' do
+        skip 'algorithm far too slow'
+        expect(lowest).to be_a Numeric
+      end
     end
   end
 end

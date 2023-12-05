@@ -14,6 +14,7 @@ module Day5
 
     def maps
       return @maps if @maps
+
       @maps = {}
 
       loop do
