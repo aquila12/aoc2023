@@ -2,6 +2,8 @@
 
 $LOAD_PATH << File.join(__dir__, '../lib')
 
+require 'timeout'
+
 module RSpecMixin
   def with_input(filename)
     path = File.join(__dir__, '..', 'input', filename.to_s)
@@ -20,4 +22,10 @@ module RSpecMixin
   end
 end
 
-RSpec.configure { |c| c.extend RSpecMixin }
+RSpec.configure do |c|
+  c.extend RSpecMixin
+
+  c.around(:each) do |example|
+    Timeout::timeout(2) { example.run }
+  end
+end

@@ -66,10 +66,7 @@ RSpec.describe Day5::Part1 do
     describe '.lowest' do
       subject(:lowest) { p1.lowest }
 
-      it 'produces numeric output' do
-        skip 'algorithm far too slow'
-        expect(lowest).to be_a Numeric
-      end
+      it { is_expected.to be_a Numeric }
     end
   end
 end

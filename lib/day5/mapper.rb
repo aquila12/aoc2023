@@ -13,6 +13,7 @@ module Day5
         break if line.empty?
 
         o, i, length = line.split.map(&:to_i)
+
         length.times { |n| self[i + n] = o + n }
       end
     end
