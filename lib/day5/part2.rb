@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'mapper'
+require_relative 'part1'
 
 module Day5
   # Follow seed *ranges* through several range mappings
