@@ -4,7 +4,6 @@ require 'day3/schematic'
 
 RSpec.describe Day3::Schematic do
   with_example_data :day3
-  with_input :day3
 
   describe '.numbers' do
     subject(:numbers) { schematic.send :numbers }
@@ -47,6 +46,8 @@ RSpec.describe Day3::Schematic do
     end
 
     context 'with the input file' do
+      with_input :day3
+
       let(:schematic) { described_class.new(input_lines) }
 
       example 'it includes numbers with a symbol below' do

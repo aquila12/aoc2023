@@ -6,7 +6,6 @@ RSpec.describe Day3::Part2 do
   subject(:p2) { described_class.new }
 
   with_example_data :day3
-  with_input :day3
 
   describe '.sum' do
     subject(:sum) do
@@ -21,6 +20,8 @@ RSpec.describe Day3::Part2 do
 
     context 'with the input file' do
       let(:input) { input_lines }
+
+      with_input :day3
 
       it { is_expected.to eq 84883664 }
     end
