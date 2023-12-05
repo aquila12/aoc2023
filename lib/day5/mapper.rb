@@ -17,7 +17,7 @@ module Day5
     end
 
     def to_s
-      @breakpoints.map { |point, diff| "#{point} (#{diff}) " }.join
+      @breakpoints.reverse_each.map { |point, diff| "#{point} (#{diff}) " }.join
     end
 
     private
