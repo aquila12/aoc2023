@@ -67,6 +67,7 @@ RSpec.describe Day5::Part1 do
       subject(:lowest) { p1.lowest }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 318728750 }
     end
   end
 end

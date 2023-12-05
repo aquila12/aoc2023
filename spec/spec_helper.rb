@@ -25,7 +25,7 @@ end
 RSpec.configure do |c|
   c.extend RSpecMixin
 
-  c.around(:each) do |example|
-    Timeout::timeout(2) { example.run }
+  c.around do |example|
+    Timeout.timeout(2) { example.run }
   end
 end
