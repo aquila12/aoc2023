@@ -12,10 +12,10 @@ struct aoc_day skipped = {
   .part2 = { .impl = 0, .answer = UNKNOWN }
 };
 
-extern struct aoc_day day1, day2, day3, day4, skipped;
+extern struct aoc_day day1, day2, day3, day4, skipped, day6;
 
 struct aoc_day* days[] = {
-  &day1, &day2, &day3, &day4, &skipped
+  &day1, &day2, &day3, &day4, &skipped, &day6
 };
 
 float tv_delta(struct timespec *start, struct timespec *end) {
