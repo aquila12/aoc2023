@@ -7,10 +7,15 @@
 
 int null_implementation() { return 0; };
 
-extern struct aoc_day day1, day2, day3, day4;
+struct aoc_day skipped = {
+  .part1 = { .impl = 0, .answer = UNKNOWN },
+  .part2 = { .impl = 0, .answer = UNKNOWN }
+};
+
+extern struct aoc_day day1, day2, day3, day4, skipped;
 
 struct aoc_day* days[] = {
-  &day1, &day2, &day3, &day4
+  &day1, &day2, &day3, &day4, &skipped
 };
 
 float tv_delta(struct timespec *start, struct timespec *end) {
