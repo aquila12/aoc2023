@@ -54,6 +54,7 @@ RSpec.describe Day6::Part1 do
       subject(:product) { p1.product }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 1710720 }
     end
   end
 end
