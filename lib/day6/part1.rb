@@ -40,12 +40,16 @@ module Day6
     end
 
     def initialize(data)
+      @races = parse(data)
+    end
+
+    def parse(data)
       inputs = data.to_h do |l|
         k, s = l.split(':', 2)
         [k, s.split.map(&:to_i)]
       end
 
-      @races = inputs['Time'].zip(inputs['Distance']).map do |t, d|
+      inputs['Time'].zip(inputs['Distance']).map do |t, d|
         Race.new(t, d)
       end
     end
