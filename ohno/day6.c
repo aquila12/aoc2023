@@ -63,13 +63,8 @@ static int race_margin(uint64_t time, uint64_t distance) {
   double sqrt_term = sqrt(b * b - 4 * a * c);
   double over_2a = 1.0f / (double)(2 * a);
 
-  double x0 = ((double)-b + sqrt_term) * over_2a;
-  double x1 = ((double)-b - sqrt_term) * over_2a;
-
-  double min, max;
-
-  if(x0 < x1) { min = x0; max = x1; }
-  else { min = x1; max = x0; }
+  double min = ((double)-b + sqrt_term) * over_2a;
+  double max = ((double)-b - sqrt_term) * over_2a;
 
   return 1 + ceil(max - 1.0L) - floor(min + 1.0L);
 };
