@@ -32,6 +32,7 @@ RSpec.describe Day6::Part2 do
       subject(:margin) { p2.margin }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 35349468 }
     end
   end
 end
