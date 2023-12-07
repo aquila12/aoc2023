@@ -64,17 +64,6 @@ static void sort_hand(char *v) {
 // }
 // /* End test code */
 
-/* Requires hand in original order */
-inline static int hand_order(char *v) {
-  int o = 0;
-  for(int i = 0; i < 5; ++i) {
-    o <<= 4;
-    o += v[i];
-  }
-
-  return o;
-}
-
 /* Requires sorted hand as input */
 static int hand_type(char *v) {
   int uniqs = 1;
@@ -134,18 +123,22 @@ static int part1() {
   size_t linelen; // Strictly ssize_t, vscode warns though
 
   char hand_to_sort[5];
-  int i, bid;
+  int i, bid, order;
 
   while ((linelen = getline(&line, &buflen, input)) != -1) {
     if(linelen < 7) continue; // Reject short lines
 
-    struct hand *this_hand = &hands[n_hands++];
+    order = 0;
 
     for(i = 0; i < 5; ++i) {
-      hand_to_sort[i] = value[(int)line[i]];
+      char v = value[(int)line[i]];
+      hand_to_sort[i] = v;
+      order <<= 4;
+      order += v;
     }
 
     bid = 0;
+
     for(i = 6; i < linelen; ++i) {
       char c = line[i];
       if(c < '0' || c > '9') continue;
@@ -154,7 +147,9 @@ static int part1() {
       bid += c - '0';
     }
 
-    this_hand->order = hand_order(hand_to_sort);
+    struct hand *this_hand = &hands[n_hands++];
+
+    this_hand->order = order;
     sort_hand(hand_to_sort);
     this_hand->type = hand_type(hand_to_sort);
     this_hand->bid = bid;
