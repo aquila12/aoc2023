@@ -11,6 +11,9 @@ module Day7
         @labels = jokers ? 'AKQT98765432J' : 'AKQJT98765432'
         @num_jokers = jokers ? string.count('J') : 0
 
+        @typecards = string.chars
+        @typecards -= ['J'] if jokers
+
         @cards = string.tr(@labels, VALUES)
         @bid = bid.to_i
       end
@@ -30,7 +33,9 @@ module Day7
       def type
         return @type if @type
 
-        counts = @cards.chars.group_by(&:itself).values.map(&:length).sort
+        counts = @typecards.group_by(&:itself).values.map(&:length).sort
+        return 10 if counts[-1].nil?
+
         @type = ((counts[-1] + @num_jokers) << 2) + (counts[-2] == 2 ? 1 : 0)
       end
 

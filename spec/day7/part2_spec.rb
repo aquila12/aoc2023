@@ -30,7 +30,7 @@ RSpec.describe Day7::Part2 do
       subject(:score) { p2.score }
 
       it { is_expected.to be_a Numeric }
-      it { is_expected.to be < 245665151 }
+      it { is_expected.to be < 245633012 }
     end
   end
 end
