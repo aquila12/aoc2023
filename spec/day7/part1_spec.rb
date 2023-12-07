@@ -38,6 +38,7 @@ RSpec.describe Day7::Part1 do
       subject(:score) { p1.score }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 247823654 }
     end
   end
 end
