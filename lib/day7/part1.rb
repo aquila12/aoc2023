@@ -36,7 +36,7 @@ module Day7
         counts = @typecards.group_by(&:itself).values.map(&:length).sort
         return 10 if counts[-1].nil?
 
-        @type = ((counts[-1] + @num_jokers) << 2) + (counts[-2] == 2 ? 1 : 0)
+        @type = ((counts[-1] + @num_jokers) << 1) + (counts[-2] == 2 ? 1 : 0)
       end
 
       def _compare(one, two)

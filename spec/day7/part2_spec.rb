@@ -21,6 +21,10 @@ RSpec.describe Day7::Part2 do
     end
   end
 
+  example 'a five-of-a-kind has an internal type-score of ten' do
+    expect(described_class::Hand.new('55555', 0).type).to eq(10)
+  end
+
   context 'with the input file' do
     subject(:p2) { described_class.new(input_file.each_line) }
 
@@ -30,7 +34,7 @@ RSpec.describe Day7::Part2 do
       subject(:score) { p2.score }
 
       it { is_expected.to be_a Numeric }
-      it { is_expected.to be < 245633012 }
+      it { is_expected.to eq 245461700 }
     end
   end
 end
