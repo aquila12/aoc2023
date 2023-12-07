@@ -45,6 +45,8 @@ module Day7
       end
     end
 
+    attr_reader :hands
+
     def score
       @hands.sort.each.with_index.sum do |hand, i|
         rank = 1 + i
@@ -52,6 +54,8 @@ module Day7
       end
     end
 
-    attr_reader :hands
+    def self.result(file)
+      new(file.each_line).score
+    end
   end
 end
