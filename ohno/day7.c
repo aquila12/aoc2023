@@ -65,7 +65,7 @@ static void sort_hand(char *v) {
 // /* End test code */
 
 /* Requires sorted hand as input */
-static int hand_type(char *v) {
+static int hand_type(char *v, int jokers) {
   int uniqs = 1;
   int run = 1;
   int max_run = 0;
@@ -80,8 +80,7 @@ static int hand_type(char *v) {
     if(run > max_run) max_run = run;
   }
 
-  // Edges tells number of different values
-  // First edge gives away how many of the first card
+  /* TODO: Account for jokers */
   switch(max_run) {
     case 1: return 1;
     case 2: return (uniqs == 3) ? 22 : 20;
@@ -102,11 +101,10 @@ static int compare_hands(const void *pa, const void *pb) {
   return ha->order - hb->order;
 }
 
-static int part1() {
+static int camel_cards(const char* labels) {
   char value[128] = {};
-  const char* labels = "AKQJT98765432";
 
-  for(int i=0; i<13; ++i) { value[(int)labels[i]] = 13 - i; };
+  for(int i=0; i<14; ++i) { value[(int)labels[i]] = 14 - i; };
 
   struct hand hands[MAX_HANDS];
   int n_hands = 0;
@@ -123,16 +121,18 @@ static int part1() {
   size_t linelen; // Strictly ssize_t, vscode warns though
 
   char hand_to_sort[5];
-  int i, bid, order;
+  int i, bid, order, jokers;
 
   while ((linelen = getline(&line, &buflen, input)) != -1) {
     if(linelen < 7) continue; // Reject short lines
 
     order = 0;
+    jokers = 0;
 
     for(i = 0; i < 5; ++i) {
       char v = value[(int)line[i]];
       hand_to_sort[i] = v;
+      if(!v) ++jokers;
       order <<= 4;
       order += v;
     }
@@ -151,7 +151,7 @@ static int part1() {
 
     this_hand->order = order;
     sort_hand(hand_to_sort);
-    this_hand->type = hand_type(hand_to_sort);
+    this_hand->type = hand_type(hand_to_sort, jokers);
     this_hand->bid = bid;
   };
 
@@ -170,7 +170,15 @@ static int part1() {
   return total;
 }
 
+static int part1() {
+  return camel_cards("AKQJT98765432 ");
+}
+
+static int part2() {
+  return camel_cards("AKQT98765432 J");
+}
+
 struct aoc_day day7 = {
   .part1 = { .impl = part1, .answer = 247823654 },
-  .part2 = { .impl = 0, .answer = 245461700 }
+  .part2 = { .impl = part2, .answer = 245461700 }
 };
