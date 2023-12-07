@@ -5,16 +5,18 @@ module Day7
   class Part1
     # Representation of a hand of cards with a bid
     class Hand
-      LABELS = 'AKQJT98765432'
       VALUES = 'abcdefghijklm'.reverse
 
-      def initialize(string, bid)
-        @cards = string.tr(LABELS, VALUES)
+      def initialize(string, bid, jokers: false)
+        @labels = jokers ? 'AKQT98765432J' : 'AKQJT98765432'
+        @num_jokers = jokers ? string.count('J') : 0
+
+        @cards = string.tr(@labels, VALUES)
         @bid = bid.to_i
       end
 
       def to_s
-        @cards.tr(VALUES, LABELS)
+        @cards.tr(VALUES, @labels)
       end
 
       attr_reader :cards, :bid
@@ -29,7 +31,7 @@ module Day7
         return @type if @type
 
         counts = @cards.chars.group_by(&:itself).values.map(&:length).sort
-        @type = (counts[-1] << 2) + (counts[-2] == 2 ? 1 : 0)
+        @type = ((counts[-1] + @num_jokers) << 2) + (counts[-2] == 2 ? 1 : 0)
       end
 
       def _compare(one, two)
@@ -40,9 +42,12 @@ module Day7
 
     def initialize(lines)
       @hands = lines.each.map do |l|
-        hand, bid = l.split
-        Hand.new(hand, bid)
+        make_hand(*l.split)
       end
+    end
+
+    def make_hand(hand, bid)
+      Hand.new(hand, bid)
     end
 
     attr_reader :hands
