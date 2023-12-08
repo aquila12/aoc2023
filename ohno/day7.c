@@ -16,7 +16,7 @@ struct hand {
   https://bertdobbelaere.github.io/sorting_networks.html#N5L9D5 */
 /* Swap out of order numbers */
 inline static void sn_connector(char* ary, int w1, int w2) {
-  if(ary[w2] > ary[w1]) {
+  if(ary[w2] < ary[w1]) {
     char tmp = ary[w1];
     ary[w1] = ary[w2];
     ary[w2] = tmp;
@@ -65,27 +65,34 @@ inline static void sort_hand(char *v) {
 // /* End test code */
 
 /* Requires sorted hand as input */
-static int hand_type(char *v) {
-  int vec = 0;
-  int jokers = !v[4];
+static int hand_type(char *v, int jokers) {
+  if(jokers == 5) return 50;
 
-  if(v[3] != v[4]) vec += 1;
-  if(v[2] != v[3]) vec += 2;
-  if(v[1] != v[2]) vec += 4;
-  if(v[0] != v[1]) vec += 8;
+  int uniqs = 1;
+  int run = 1;
+  int max_run = 0;
 
-  int scores[16] = {
-    50, 40, 32, 30, 32, 22, 22, 20,
-    40, 30, 22, 20, 30, 20, 20, 10
-  };
+  for(int i = 1; i < 5; ++i) {
+    if(v[i] == v[i - 1]) {
+      ++run;
+    } else {
+      run = 1;
+      ++uniqs;
+    }
+    if(run > max_run) max_run = run;
+  }
 
-  int joker_scores[16] = {
-    50, 50, 50, 40, 50, 32, 40, 30,
-    50, 40, 40, 30, 40, 30, 30, 20
-  };
+  int bonus = 10 * jokers;
 
-  if(!jokers) return scores[vec];
-  else return joker_scores[vec];
+  switch(max_run) {
+    case 1: return bonus + 10;
+    case 2: return bonus + ((uniqs == 3) ? 22 : 20);
+    case 3: return bonus + ((uniqs == 2) ? 32 : 30);
+    case 4: return bonus + 40;
+    case 5: return 50;
+  }
+
+  return 999; // Never get here
 }
 
 static int compare_hands(const void *pa, const void *pb) {
@@ -123,10 +130,14 @@ static int camel_cards(const char* labels) {
     if(linelen < 7) continue; // Reject short lines
 
     order = 0;
+    jokers = 0;
 
     for(i = 0; i < 5; ++i) {
       char v = value[(int)line[i]];
-      hand_to_sort[i] = v;
+      if(!v) {
+        ++jokers;
+        hand_to_sort[i] = -i;
+      } else hand_to_sort[i] = v;
 
       order <<= 4;
       order += v;
@@ -146,13 +157,11 @@ static int camel_cards(const char* labels) {
 
     this_hand->order = order;
     sort_hand(hand_to_sort);
-    this_hand->type = hand_type(hand_to_sort);
+    this_hand->type = hand_type(hand_to_sort, jokers);
     this_hand->bid = bid;
-    // printf("%d %s\n", this_hand->type, line);
-  }
+  };
 
   fclose(input);
-  // exit(1);
 
   qsort(hands, n_hands, sizeof(hands[0]), compare_hands);
 
@@ -168,7 +177,6 @@ static int camel_cards(const char* labels) {
 }
 
 static int part1() {
-  // return 0;
   return camel_cards("AKQJT98765432 ");
 }
 
