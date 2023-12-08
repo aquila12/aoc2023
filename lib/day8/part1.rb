@@ -39,7 +39,11 @@ module Day8
     def next_node
       raise StopIteration if done?
 
-      @node = @nodes[@node][next_direction == 'R' ? 1 : 0]
+      advance!(next_direction == 'R' ? 1 : 0)
+    end
+
+    def advance!(direction)
+      @node = @nodes[@node][direction]
     end
 
     def steps_to_end
