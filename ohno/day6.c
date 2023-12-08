@@ -4,6 +4,7 @@
 #include "stdio.h"
 #include "math.h"
 #include "stdint.h"
+#include "stdlib.h"
 
 #define CARD_SIZE 10
 
@@ -31,6 +32,8 @@ static void parse_card(
   while ((linelen = getline(&line, &buflen, input)) != -1) {
     if(linelen) parse_line(line, linelen, races);
   };
+
+  if(line) free(line);
 
   fclose(input);
 }

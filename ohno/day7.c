@@ -161,6 +161,8 @@ static int camel_cards(const char* labels) {
     this_hand->bid = bid;
   };
 
+  if(line) free(line);
+
   fclose(input);
 
   qsort(hands, n_hands, sizeof(hands[0]), compare_hands);

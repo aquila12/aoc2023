@@ -2,6 +2,7 @@
 
 #include "aoc.h"
 #include "stdio.h"
+#include "stdlib.h"
 
 static int sum_calibration_values(int (*find_digits)(char*,int,int)) {
   int sum = 0;
@@ -23,6 +24,8 @@ static int sum_calibration_values(int (*find_digits)(char*,int,int)) {
 
     sum += 10 * first + last;
   };
+
+  if(line) free(line);
 
   fclose(input);
 
