@@ -58,4 +58,16 @@ RSpec.describe Day8::Part1, :aggregate_failures do
       expect(p1.steps_to_end).to eq 6
     end
   end
+
+  context 'with the input file' do
+    subject(:p1) { described_class.new(input_file.each_line) }
+
+    with_input :day8
+
+    describe '.steps_to_end' do
+      subject(:steps_to_end) { p1.steps_to_end }
+
+      it { is_expected.to be_a Numeric }
+    end
+  end
 end

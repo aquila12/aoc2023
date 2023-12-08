@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Day8
+  # Desert map traversal
   class Part1
     START_NODE = 'AAA'
     STOP_NODE = 'ZZZ'
@@ -9,15 +10,13 @@ module Day8
       @directions = lines.next.chomp.each_char
 
       @nodes = {}
-
-      n = 0
       lines.each do |l|
         match = l.match(/(\w+)\s*=\s*\((\w+),\s*(\w+)\)/)
         next unless match
 
         this_node, left_node, right_node = match.values_at(1, 2, 3)
 
-        @nodes[this_node] = [ left_node, right_node ]
+        @nodes[this_node] = [left_node, right_node]
       end
 
       @node = START_NODE
@@ -34,6 +33,7 @@ module Day8
 
     def next_node
       raise StopIteration if @node == STOP_NODE
+
       @node = @nodes[@node][next_direction == 'R' ? 1 : 0]
     end
 
@@ -44,6 +44,10 @@ module Day8
         n += 1
       end
       n
+    end
+
+    def self.result(file)
+      new(file.each_line).steps_to_end
     end
   end
 end
