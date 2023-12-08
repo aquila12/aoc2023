@@ -3,5 +3,6 @@
     "stat.h": "c",
     "aoc.h": "c",
     "stdio.h": "c"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
