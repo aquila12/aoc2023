@@ -97,12 +97,17 @@ static int lcm(int *nums, int count) {
 
   for(int i = 0; i < 100; ++i) {
     int c_max = 0, p = p100[i];
+    int done = 1;
 
     // Iterate each number and find out how many times this factor goes in
     for(int j = 0; j < count; ++j) {
-      int n = nums[j], c = 0;
-      while((n % p) == 0) {
-        n /= p;
+      int c = 0;
+
+      if(nums[j] == 1) continue;
+      done = 0;
+
+      while((nums[j] % p) == 0) {
+        nums[j] /= p;
         ++c;
       }
 
@@ -111,9 +116,11 @@ static int lcm(int *nums, int count) {
 
     // Take the maximum count of this prime factor
     for(int j = c_max; j > 0; --j) product *= p;
+
+    if(done) return product;
   }
 
-  return product;
+  return -1;
 }
 
 static int part2() {
@@ -142,34 +149,24 @@ static int part2() {
   // printf("Found %d walks\n", n_walks);
 
   int steps = 0;
-  int i = 0;
+  int i = 0, p;
   int d;
 
   // NB: On inspecting the input behaviour, the period is the same as the initial steps to completion
   while(1) {
-    for(n = 0; n < n_walks; ++n) {
-      if(node[n] < aaz) break;
-    }
-
-    // Unlikely!
-    if(n == n_walks) return steps;
-
     // Detect periodicity
     for(n = 0; n < n_walks; ++n) {
       if(node[n] < aaz) continue;
 
       if(last_end[n]) period[n] = steps - last_end[n];
       last_end[n] = steps;
-    }
 
-    for(n = 0; n < n_walks; ++n) {
-      if(!period[n]) break;
-    }
+      for(p = 0; p < n_walks; ++p) {
+        if(!period[p]) break;
+      }
 
-    if(n == n_walks) {
-      return lcm(period, n_walks);
+      if(p == n_walks) return lcm(period, n_walks);
     }
-
 
     d = sequence[i++];
     if(i >= n_seq) i = 0;
