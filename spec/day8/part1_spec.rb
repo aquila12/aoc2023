@@ -68,6 +68,7 @@ RSpec.describe Day8::Part1, :aggregate_failures do
       subject(:steps_to_end) { p1.steps_to_end }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 17141 }
     end
   end
 end
