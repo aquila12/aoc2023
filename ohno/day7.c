@@ -23,7 +23,7 @@ inline static void sn_connector(char* ary, int w1, int w2) {
   }
 };
 /* Actual network */
-static void sort_hand(char *v) {
+inline static void sort_hand(char *v) {
   sn_connector(v, 0, 3); sn_connector(v, 1, 4);
   sn_connector(v, 0, 2); sn_connector(v, 1, 3);
   sn_connector(v, 0, 1); sn_connector(v, 2, 4);
@@ -66,6 +66,8 @@ static void sort_hand(char *v) {
 
 /* Requires sorted hand as input */
 static int hand_type(char *v, int jokers) {
+  if(jokers == 5) return 50;
+
   int uniqs = 1;
   int run = 1;
   int max_run = 0;
@@ -80,12 +82,13 @@ static int hand_type(char *v, int jokers) {
     if(run > max_run) max_run = run;
   }
 
-  /* TODO: Account for jokers */
+  int bonus = 10 * jokers;
+
   switch(max_run) {
-    case 1: return 1;
-    case 2: return (uniqs == 3) ? 22 : 20;
-    case 3: return (uniqs == 2) ? 32 : 30;
-    case 4: return 40;
+    case 1: return bonus + 10;
+    case 2: return bonus + ((uniqs == 3) ? 22 : 20);
+    case 3: return bonus + ((uniqs == 2) ? 32 : 30);
+    case 4: return bonus + 40;
     case 5: return 50;
   }
 
@@ -104,7 +107,7 @@ static int compare_hands(const void *pa, const void *pb) {
 static int camel_cards(const char* labels) {
   char value[128] = {};
 
-  for(int i=0; i<14; ++i) { value[(int)labels[i]] = 14 - i; };
+  for(int i=0; i<14; ++i) { value[(int)labels[i]] = 13 - i; };
 
   struct hand hands[MAX_HANDS];
   int n_hands = 0;
@@ -131,8 +134,11 @@ static int camel_cards(const char* labels) {
 
     for(i = 0; i < 5; ++i) {
       char v = value[(int)line[i]];
-      hand_to_sort[i] = v;
-      if(!v) ++jokers;
+      if(!v) {
+        ++jokers;
+        hand_to_sort[i] = -i;
+      } else hand_to_sort[i] = v;
+
       order <<= 4;
       order += v;
     }
