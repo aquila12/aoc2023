@@ -7,8 +7,7 @@
 #define MAX_HANDS 2500
 
 struct hand {
-  int type;     // Sort order of the hand based on type
-  int order;    // Sort order of the hand after type
+  int order;    // Sort order of the hand
   int bid;
 };
 
@@ -66,7 +65,7 @@ inline static void sort_hand(char *v) {
 
 /* Requires sorted hand as input */
 static int hand_type(char *v, int jokers) {
-  if(jokers == 5) return 50;
+  if(jokers == 5) return 0x50;
 
   int uniqs = 1;
   int run = 1;
@@ -82,14 +81,14 @@ static int hand_type(char *v, int jokers) {
     if(run > max_run) max_run = run;
   }
 
-  int bonus = 10 * jokers;
+  int bonus = 0x10 * jokers;
 
   switch(max_run) {
-    case 1: return bonus + 10;
-    case 2: return bonus + ((uniqs == 3) ? 22 : 20);
-    case 3: return bonus + ((uniqs == 2) ? 32 : 30);
-    case 4: return bonus + 40;
-    case 5: return 50;
+    case 1: return bonus + 0x10;
+    case 2: return bonus + ((uniqs == 3) ? 0x22 : 0x20);
+    case 3: return bonus + ((uniqs == 2) ? 0x32 : 0x30);
+    case 4: return bonus + 0x40;
+    case 5: return 0x50;
   }
 
   return 999; // Never get here
@@ -97,9 +96,6 @@ static int hand_type(char *v, int jokers) {
 
 static int compare_hands(const void *pa, const void *pb) {
   const struct hand *ha = pa, *hb = pb;
-
-  int diff = ha->type - hb->type;
-  if(diff) return diff;
 
   return ha->order - hb->order;
 }
@@ -155,16 +151,14 @@ static int camel_cards(const char* labels) {
 
     struct hand *this_hand = &hands[n_hands++];
 
-    this_hand->order = order;
     sort_hand(hand_to_sort);
-    this_hand->type = hand_type(hand_to_sort, jokers);
+    this_hand->order = (hand_type(hand_to_sort, jokers) << 20) + order;
     this_hand->bid = bid;
   };
 
   if(line) free(line);
 
   fclose(input);
-
   qsort(hands, n_hands, sizeof(hands[0]), compare_hands);
 
   int total = 0;
