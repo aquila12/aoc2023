@@ -3,9 +3,6 @@
 module Day8
   # Desert map traversal
   class Part1
-    START_NODE = 'AAA'
-    STOP_NODE = 'ZZZ'
-
     def initialize(lines)
       @directions = lines.next.chomp.each_char
 
@@ -19,10 +16,18 @@ module Day8
         @nodes[this_node] = [left_node, right_node]
       end
 
-      @node = START_NODE
+      reset
     end
 
     attr_accessor :node
+
+    def reset
+      @node = 'AAA'
+    end
+
+    def done?
+      @node == 'ZZZ'
+    end
 
     def next_direction
       @directions.next
@@ -32,7 +37,7 @@ module Day8
     end
 
     def next_node
-      raise StopIteration if @node == STOP_NODE
+      raise StopIteration if done?
 
       @node = @nodes[@node][next_direction == 'R' ? 1 : 0]
     end
