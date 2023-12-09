@@ -67,4 +67,17 @@ RSpec.describe Day9::Part1, :aggregate_failures do
       end
     end
   end
+
+  context 'with the input file' do
+    subject(:p1) { described_class.new(input_file.each_line) }
+
+    with_input :day9
+
+    describe '.sum' do
+      subject(:sum) { p1.sum }
+
+      it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 2008960228 }
+    end
+  end
 end

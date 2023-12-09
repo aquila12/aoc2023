@@ -73,4 +73,6 @@ rule '' do |name|
   t1 = Time.now
   millis = ((t1 - t0) * 1000).round(3)
   puts " (#{millis} ms)"
+rescue NotImplementedError => e
+  puts e
 end

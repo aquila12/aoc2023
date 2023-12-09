@@ -29,5 +29,9 @@ module Day9
     def sum
       @seqs.sum(&:next_value)
     end
+
+    def self.result(file)
+      new(file.each_line).sum
+    end
   end
 end
