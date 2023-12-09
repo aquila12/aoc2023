@@ -16,6 +16,10 @@ module Day9
       def next_value
         zeroes? ? 0 : last + derivative.next_value
       end
+
+      def previous_value
+        zeroes? ? 0 : first - derivative.previous_value
+      end
     end
 
     def initialize(lines)
