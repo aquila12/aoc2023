@@ -34,6 +34,7 @@ RSpec.describe Day9::Part2, :aggregate_failures do
       subject(:sum) { p1.sum }
 
       it { is_expected.to be_a Numeric }
+      it { is_expected.to eq 1097 }
     end
   end
 end
