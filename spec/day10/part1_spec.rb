@@ -65,4 +65,16 @@ RSpec.describe Day10::Part1, :aggregate_failures do
       end
     end
   end
+
+  context 'with the input file' do
+    subject(:p1) { described_class.new(input_file.each_line) }
+
+    with_input :day10
+
+    describe '.farthest_distance' do
+      subject(:farthest_distance) { p1.farthest_distance }
+
+      it { is_expected.to be_a Numeric }
+    end
+  end
 end

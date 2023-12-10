@@ -85,5 +85,9 @@ module Day10
 
       [pnew, dnew]
     end
+
+    def self.result(file)
+      new(file.each_line).farthest_distance
+    end
   end
 end
