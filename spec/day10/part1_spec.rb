@@ -9,7 +9,7 @@ RSpec.describe Day10::Part1, :aggregate_failures do
     with_example_data :day10_1a
 
     describe '.cell' do
-      example 'it reads cells in row, column order' do
+      example 'it reads cells in row, column order' do # rubocop:disable RSpec/ExampleLength
         expect(p1.cell(2, 2)).to eq 0
         expect(p1.cell(2, 3)).to eq 4
         expect(p1.cell(2, 4)).to eq 5
@@ -43,7 +43,7 @@ RSpec.describe Day10::Part1, :aggregate_failures do
 
     describe '.cell' do
       example 'it reads cells in row, column order' do
-        expect(p1.cell(2, 1)).to eq nil
+        expect(p1.cell(2, 1)).to be_nil
       end
     end
 

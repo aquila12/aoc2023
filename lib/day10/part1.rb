@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 module Day10
+  # Pipe following
   class Part1
     # N S W E
     DIRECTIONS = [[-1, 0], [1, 0], [0, -1], [0, 1]].freeze
 
+    # Mixin for Array
     module Movement
       def go(direction)
         v = DIRECTIONS[direction]
@@ -37,6 +39,7 @@ module Day10
 
     def cell(row, col)
       return nil if row.negative? || col.negative?
+
       @map[row - 1][col - 1]
     end
 
@@ -59,19 +62,8 @@ module Day10
 
       loop do
         distance += 1
-        positions = traversers.map(&:first)
 
-        traversers.map! do |pos, dir|
-          pnew = pos.go dir
-          pipe = cell(*pnew)
-          next nil unless pipe
-
-          dnew = PIPE_EXIT[pipe][dir]
-          next nil unless dnew
-          next nil if positions.include? pnew
-
-          [pnew, dnew]
-        end
+        traversers.map!(&method(:next_position))
         traversers.compact!
         traversers.uniq!(&:first)
 
@@ -79,6 +71,19 @@ module Day10
       end
 
       [distance, traversers.first.first]
+    end
+
+    def next_position(traverser)
+      pos, dir = traverser
+
+      pnew = pos.go dir
+      pipe = cell(*pnew)
+      return nil unless pipe
+
+      dnew = PIPE_EXIT[pipe][dir]
+      return nil unless dnew
+
+      [pnew, dnew]
     end
   end
 end
