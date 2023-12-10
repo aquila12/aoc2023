@@ -13,9 +13,12 @@ RuboCop::RakeTask.new(:lint)
 rule default: %w[spec lint all]
 
 rule all: FileList['lib/*/part?.rb'] do |t|
-  t.prerequisites.each do |src|
-    task = src.scan(%r{day(\d+)/part(\d)}).first.join('.')
-    Rake::Task[task].invoke
+  tasks = t.prerequisites.map do |src|
+    src.scan(%r{day(\d+)/part(\d)}).first.map(&:to_i)
+  end
+
+  tasks.sort.each do |day, part|
+    Rake::Task["#{day}.#{part}"].invoke
   end
 end
 
